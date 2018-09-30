@@ -41,6 +41,14 @@ class WSGIServer(object):
             self.handle_one_request()
 
     def handle_one_request():
+        self.request_data = request_data = self.client_connection.recv(1024)
+        # Print formatted request data a la 'curl -v'
+        print(''.join(
+            '< {line}\n'.format(line=line)
+            for line in request_data.splitlines()
+        ))
+
+        self.parse_request(request_data)
         # Construct environment dictionary using request data
         env = self.get_environ()
 
@@ -81,7 +89,7 @@ class WSGIServer(object):
     def start_response(self, status, respose_headers, exc_info=None):
         # Add necessary server headers
         server_headers = [
-            ('Date', 'Tue, 31 Mar 2015 12:54:58 GMT'),
+            ('Date', 'Sun, 30 Sep 2017 23:47:58 GMT'),
             ('Server', 'WSGIServer 0.2'),
         ]
         self.headers_set = [status, respose_headers + server_headers]
